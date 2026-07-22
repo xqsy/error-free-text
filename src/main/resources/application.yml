@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: errorfreetext
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/errorfreetext}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update

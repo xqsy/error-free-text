@@ -96,7 +96,7 @@ Do not introduce or reconfigure a formatter, linter, or style plugin without a s
 
 ## Validation and handoff
 
-Run the narrowest relevant validation for the approved batch, followed by broader validation only when justified and safe. Do not edit additional files merely to make an unrelated failure pass.
+Run the narrowest relevant non-Gradle validation for the approved batch, followed by broader validation only when justified and safe. Do not run Gradle commands unless the user explicitly requests them. Do not routinely mention omitted Gradle validation or recommend Gradle commands in batch handoffs. Report only checks actually performed and material unresolved risks. Do not edit additional files merely to make an unrelated failure pass.
 
 After every batch, report:
 
