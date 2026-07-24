@@ -5,12 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "correction_tasks")
+@Table(
+    name = "correction_tasks",
+    indexes = @Index(name = "idx_correction_tasks_status_created_at", columnList = "status, created_at"))
 public class CorrectionTask {
   @Id
   @Column(nullable = false, updatable = false)
@@ -39,6 +42,18 @@ public class CorrectionTask {
   private Instant updatedAt;
 
   protected CorrectionTask() {}
+
+  public static CorrectionTask create(String sourceText, String language) {
+    CorrectionTask task = new CorrectionTask();
+    Instant now = Instant.now();
+    task.id = UUID.randomUUID();
+    task.sourceText = sourceText;
+    task.language = language;
+    task.status = TaskStatus.NEW;
+    task.createdAt = now;
+    task.updatedAt = now;
+    return task;
+  }
 
   public UUID getId() {
     return id;
