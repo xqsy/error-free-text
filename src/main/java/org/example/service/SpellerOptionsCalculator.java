@@ -1,4 +1,4 @@
-package org.example.task.text;
+package org.example.service;
 
 import java.util.Objects;
 

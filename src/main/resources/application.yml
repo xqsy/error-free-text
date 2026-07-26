@@ -9,3 +9,9 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+
+yandex:
+  speller:
+    endpoint: ${YANDEX_SPELLER_ENDPOINT:https://speller.yandex.net/services/spellservice.json/checkTexts}
+    connect-timeout: ${YANDEX_SPELLER_CONNECT_TIMEOUT:3s}
+    read-timeout: ${YANDEX_SPELLER_READ_TIMEOUT:10s}

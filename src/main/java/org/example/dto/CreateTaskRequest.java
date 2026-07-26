@@ -1,8 +1,8 @@
-package org.example.task.api;
+package org.example.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import org.example.task.validation.ValidCorrectionText;
+import org.example.validation.ValidCorrectionText;
 
 public record CreateTaskRequest(
     @NotNull @ValidCorrectionText String text,

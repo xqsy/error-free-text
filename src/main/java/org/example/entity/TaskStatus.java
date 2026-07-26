@@ -1,4 +1,4 @@
-package org.example.task;
+package org.example.entity;
 
 public enum TaskStatus {
   NEW,

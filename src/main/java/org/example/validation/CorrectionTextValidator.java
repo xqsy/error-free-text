@@ -1,4 +1,4 @@
-package org.example.task.validation;
+package org.example.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
