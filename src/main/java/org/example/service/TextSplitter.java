@@ -2,15 +2,12 @@ package org.example.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public final class TextSplitter {
 
   public static final int MAX_FRAGMENT_LENGTH = 10000;
 
   public List<String> split(String text) {
-    Objects.requireNonNull(text, "text");
-
     List<String> fragments = new ArrayList<>();
     int fragmentStart = 0;
 

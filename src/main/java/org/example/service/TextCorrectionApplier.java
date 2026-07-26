@@ -3,19 +3,12 @@ package org.example.service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import org.example.model.TextCorrection;
 
 public final class TextCorrectionApplier {
 
   public String apply(String text, List<TextCorrection> corrections) {
-    Objects.requireNonNull(text, "text");
-    Objects.requireNonNull(corrections, "corrections");
-
     List<TextCorrection> orderedCorrections = new ArrayList<>(corrections);
-    for (TextCorrection correction : orderedCorrections) {
-      Objects.requireNonNull(correction, "correction");
-    }
     orderedCorrections.sort(
         Comparator.comparingInt(TextCorrection::position).reversed());
 

@@ -1,6 +1,5 @@
 package org.example.service;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public final class SpellerOptionsCalculator {
@@ -12,8 +11,6 @@ public final class SpellerOptionsCalculator {
           "(?iu)(?<![\\p{L}\\p{N}_@.-])(?:https?://|ftp://|www\\.)(?=\\S)");
 
   public int calculate(String text) {
-    Objects.requireNonNull(text, "text");
-
     int options = text.codePoints().anyMatch(Character::isDigit) ? IGNORE_DIGITS : 0;
     if (URL_MARKER.matcher(text).find()) {
       options += IGNORE_URLS;
