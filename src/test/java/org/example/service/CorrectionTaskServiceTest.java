@@ -108,7 +108,8 @@ class CorrectionTaskServiceTest {
     when(repository.findAllByStatus(TaskStatus.PROCESSING))
         .thenReturn(List.of(firstTask, secondTask));
 
-    assertThat(taskService.failInterruptedTasks()).isEqualTo(2);
+    taskService.failInterruptedTasks();
+
     assertThat(firstTask.getStatus()).isEqualTo(TaskStatus.FAILED);
     assertThat(secondTask.getStatus()).isEqualTo(TaskStatus.FAILED);
     assertThat(firstTask.getErrorMessage()).isEqualTo("Text correction was interrupted");

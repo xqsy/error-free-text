@@ -108,12 +108,4 @@ public class CorrectionTask {
   public String getErrorMessage() {
     return errorMessage;
   }
-
-  public Instant getCreatedAt() {
-    return createdAt;
-  }
-
-  public Instant getUpdatedAt() {
-    return updatedAt;
-  }
 }

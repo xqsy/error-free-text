@@ -3,11 +3,11 @@ package org.example.service;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class TextSplitter {
+final class TextSplitter {
 
-  public static final int MAX_FRAGMENT_LENGTH = 10000;
+  private static final int MAX_FRAGMENT_LENGTH = 10000;
 
-  public List<String> split(String text) {
+  List<String> split(String text) {
     List<String> fragments = new ArrayList<>();
     int fragmentStart = 0;
 

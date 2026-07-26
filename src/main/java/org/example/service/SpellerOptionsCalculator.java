@@ -2,15 +2,15 @@ package org.example.service;
 
 import java.util.regex.Pattern;
 
-public final class SpellerOptionsCalculator {
+final class SpellerOptionsCalculator {
 
-  public static final int IGNORE_DIGITS = 2;
-  public static final int IGNORE_URLS = 4;
+  static final int IGNORE_DIGITS = 2;
+  static final int IGNORE_URLS = 4;
   private static final Pattern URL_MARKER =
       Pattern.compile(
           "(?iu)(?<![\\p{L}\\p{N}_@.-])(?:https?://|ftp://|www\\.)(?=\\S)");
 
-  public int calculate(String text) {
+  int calculate(String text) {
     int options = text.codePoints().anyMatch(Character::isDigit) ? IGNORE_DIGITS : 0;
     if (URL_MARKER.matcher(text).find()) {
       options += IGNORE_URLS;

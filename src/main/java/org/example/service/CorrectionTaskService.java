@@ -49,12 +49,11 @@ public class CorrectionTaskService {
   }
 
   @Transactional
-  public int failInterruptedTasks() {
+  public void failInterruptedTasks() {
     List<CorrectionTask> interruptedTasks =
         repository.findAllByStatus(TaskStatus.PROCESSING);
     interruptedTasks.forEach(task -> task.fail(INTERRUPTED_ERROR_MESSAGE));
     LOGGER.info("Recovered interrupted correction tasks: count={}", interruptedTasks.size());
-    return interruptedTasks.size();
   }
 
   @Transactional
