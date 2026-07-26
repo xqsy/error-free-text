@@ -15,3 +15,7 @@ yandex:
     endpoint: ${YANDEX_SPELLER_ENDPOINT:https://speller.yandex.net/services/spellservice.json/checkTexts}
     connect-timeout: ${YANDEX_SPELLER_CONNECT_TIMEOUT:3s}
     read-timeout: ${YANDEX_SPELLER_READ_TIMEOUT:10s}
+
+task:
+  processing:
+    polling-interval: ${TASK_PROCESSING_POLLING_INTERVAL:1s}

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -53,6 +54,35 @@ public class CorrectionTask {
     task.createdAt = now;
     task.updatedAt = now;
     return task;
+  }
+
+  public void startProcessing() {
+    requireStatus(TaskStatus.NEW);
+    status = TaskStatus.PROCESSING;
+    updatedAt = Instant.now();
+  }
+
+  public void complete(String correctedText) {
+    requireStatus(TaskStatus.PROCESSING);
+    this.correctedText = Objects.requireNonNull(correctedText, "correctedText");
+    errorMessage = null;
+    status = TaskStatus.COMPLETED;
+    updatedAt = Instant.now();
+  }
+
+  public void fail(String errorMessage) {
+    requireStatus(TaskStatus.PROCESSING);
+    this.errorMessage = Objects.requireNonNull(errorMessage, "errorMessage");
+    correctedText = null;
+    status = TaskStatus.FAILED;
+    updatedAt = Instant.now();
+  }
+
+  private void requireStatus(TaskStatus expectedStatus) {
+    if (status != expectedStatus) {
+      throw new IllegalStateException(
+          "Task must have status " + expectedStatus + " but was " + status);
+    }
   }
 
   public UUID getId() {
