@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.UUID;
+import org.example.lifecycle.ProcessingTaskRecovery;
 import org.example.service.CorrectionTaskService;
 import org.example.service.TextCorrectionProcessor;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,17 +25,20 @@ class CorrectionTaskSchedulerTest {
 
   @Mock private CorrectionTaskService taskService;
   @Mock private TextCorrectionProcessor correctionProcessor;
+  @Mock private ProcessingTaskRecovery processingTaskRecovery;
 
   private CorrectionTaskScheduler scheduler;
 
   @BeforeEach
   void setUp() {
-    scheduler = new CorrectionTaskScheduler(taskService, correctionProcessor);
+    scheduler =
+        new CorrectionTaskScheduler(taskService, correctionProcessor, processingTaskRecovery);
   }
 
   @Test
   void processesIdentifierOfOldestNewTask() {
     UUID taskId = UUID.randomUUID();
+    when(processingTaskRecovery.isPollingAllowed()).thenReturn(true);
     when(taskService.findOldestNewTaskId()).thenReturn(Optional.of(taskId));
 
     scheduler.processNextTask();
@@ -46,10 +50,19 @@ class CorrectionTaskSchedulerTest {
 
   @Test
   void doesNotInvokeProcessorWhenQueueIsEmpty() {
+    when(processingTaskRecovery.isPollingAllowed()).thenReturn(true);
     when(taskService.findOldestNewTaskId()).thenReturn(Optional.empty());
 
     scheduler.processNextTask();
 
+    verify(correctionProcessor, never()).process(org.mockito.ArgumentMatchers.any());
+  }
+
+  @Test
+  void doesNotPollQueueBeforeRecoveryCompletes() {
+    scheduler.processNextTask();
+
+    verify(taskService, never()).findOldestNewTaskId();
     verify(correctionProcessor, never()).process(org.mockito.ArgumentMatchers.any());
   }
 
