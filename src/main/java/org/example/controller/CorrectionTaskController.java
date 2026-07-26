@@ -33,7 +33,7 @@ public class CorrectionTaskController {
   }
 
   @GetMapping("/{id}")
-  public TaskResponse getTask(@PathVariable("id") UUID id) {
+  public TaskResponse getTask(@PathVariable UUID id) {
     CorrectionTask task = taskService.getTask(id);
     return new TaskResponse(
         task.getStatus(),
