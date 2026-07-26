@@ -24,19 +24,8 @@ public final class TextSplitter {
       fragments.add(text.substring(fragmentStart, fragmentEnd));
       fragmentStart = fragmentEnd;
     }
-    
+
     return List.copyOf(fragments);
-  }
-
-  public String join(List<String> fragments) {
-    Objects.requireNonNull(fragments, "fragments");
-
-    StringBuilder result = new StringBuilder();
-    for (String fragment : fragments) {
-      result.append(Objects.requireNonNull(fragment, "fragment"));
-    }
-
-    return result.toString();
   }
 
   private int adjustFragmentEnd(String text, int fragmentStart, int maximumEnd) {
@@ -57,7 +46,7 @@ public final class TextSplitter {
         && Character.isLowSurrogate(text.charAt(fragmentEnd))) {
       return fragmentEnd - 1;
     }
-    
+
     return fragmentEnd;
   }
 }

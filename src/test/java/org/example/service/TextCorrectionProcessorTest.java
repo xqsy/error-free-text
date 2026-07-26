@@ -99,6 +99,6 @@ class TextCorrectionProcessorTest {
   private YandexSpellerError spellerError(
       int position, int length, String suggestion) {
     return new YandexSpellerError(
-        1, position, length, "misspelled", List.of(suggestion));
+        position, length, List.of(suggestion));
   }
 }

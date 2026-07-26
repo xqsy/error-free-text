@@ -25,7 +25,7 @@ class TextSplitterTest {
 
     assertThat(fragments).hasSize(expectedFragmentCount);
     assertThat(fragments.getFirst()).hasSize(expectedFirstFragmentLength);
-    assertThat(splitter.join(fragments)).isEqualTo(text);
+    assertThat(String.join("", fragments)).isEqualTo(text);
   }
 
   @Test
@@ -37,13 +37,6 @@ class TextSplitterTest {
     assertThat(fragments).hasSize(2);
     assertThat(fragments.getFirst()).hasSize(9999);
     assertThat(fragments.get(1).codePointAt(0)).isEqualTo(0x1F600);
-    assertThat(splitter.join(fragments)).isEqualTo(text);
-  }
-
-  @Test
-  void joinsFragmentsInOrderWithoutChangingSeparators() {
-    List<String> fragments = List.of("first ", "\nsecond", " \uD83D\uDE00 third");
-
-    assertThat(splitter.join(fragments)).isEqualTo("first \nsecond \uD83D\uDE00 third");
+    assertThat(String.join("", fragments)).isEqualTo(text);
   }
 }

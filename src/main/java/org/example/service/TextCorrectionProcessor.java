@@ -70,7 +70,7 @@ public class TextCorrectionProcessor {
             correctionApplier.apply(fragments.get(index), corrections.get(index)));
       }
 
-      taskService.completeTask(taskId, textSplitter.join(correctedFragments));
+      taskService.completeTask(taskId, String.join("", correctedFragments));
       long durationMillis = Duration.ofNanos(System.nanoTime() - startedAt).toMillis();
       LOGGER.info(
           "Completed text correction: taskId={}, durationMs={}", taskId, durationMillis);
