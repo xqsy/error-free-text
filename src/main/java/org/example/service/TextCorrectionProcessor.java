@@ -1,13 +1,10 @@
 package org.example.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.example.client.YandexSpellerClient;
 import org.example.dto.YandexSpellerError;
 import org.example.entity.CorrectionTask;
-import org.example.mapper.YandexSpellerResponseMapper;
-import org.example.model.TextCorrection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,8 +19,8 @@ public class TextCorrectionProcessor {
   private final CorrectionTaskService taskService;
   private final SpellerOptionsCalculator optionsCalculator = new SpellerOptionsCalculator();
   private final TextSplitter textSplitter = new TextSplitter();
-  private final YandexSpellerResponseMapper responseMapper = new YandexSpellerResponseMapper();
-  private final TextCorrectionApplier correctionApplier = new TextCorrectionApplier();
+  private final YandexSpellerResponseApplier responseApplier =
+      new YandexSpellerResponseApplier();
 
   public TextCorrectionProcessor(
       YandexSpellerClient spellerClient, CorrectionTaskService taskService) {
@@ -43,15 +40,8 @@ public class TextCorrectionProcessor {
           options);
       List<List<YandexSpellerError>> response =
           spellerClient.checkTexts(fragments, task.getLanguage(), options);
-      List<List<TextCorrection>> corrections = responseMapper.map(fragments, response);
-
-      List<String> correctedFragments = new ArrayList<>(fragments.size());
-      for (int index = 0; index < fragments.size(); index++) {
-        correctedFragments.add(
-            correctionApplier.apply(fragments.get(index), corrections.get(index)));
-      }
-
-      taskService.completeTask(taskId, String.join("", correctedFragments));
+      String correctedText = responseApplier.apply(fragments, response);
+      taskService.completeTask(taskId, correctedText);
       LOGGER.info("Completed text correction: taskId={}", taskId);
     } catch (RuntimeException exception) {
       LOGGER.error("Text correction failed: taskId={}", taskId, exception);
