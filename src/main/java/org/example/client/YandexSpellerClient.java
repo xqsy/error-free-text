@@ -1,13 +1,13 @@
 package org.example.client;
 
-import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.List;
 import org.example.dto.YandexSpellerError;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
+import org.springframework.boot.http.client.ClientHttpRequestFactorySettings;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -27,22 +27,20 @@ public class YandexSpellerClient {
       @Value("${yandex.speller.endpoint}") String endpoint,
       @Value("${yandex.speller.connect-timeout}") Duration connectTimeout,
       @Value("${yandex.speller.read-timeout}") Duration readTimeout) {
-    HttpClient httpClient =
-        HttpClient.newBuilder()
-            .connectTimeout(connectTimeout)
-            .build();
-    JdkClientHttpRequestFactory requestFactory =
-        new JdkClientHttpRequestFactory(httpClient);
-    requestFactory.setReadTimeout(readTimeout);
+    ClientHttpRequestFactorySettings settings =
+        ClientHttpRequestFactorySettings.defaults().withTimeouts(connectTimeout, readTimeout);
 
-    this.restClient = restClientBuilder.requestFactory(requestFactory).build();
+    this.restClient =
+        restClientBuilder
+            .requestFactory(ClientHttpRequestFactoryBuilder.jdk().build(settings))
+            .build();
     this.endpoint = endpoint;
   }
 
   public List<List<YandexSpellerError>> checkTexts(
       List<String> texts, String language, int options) {
     MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-    texts.forEach(text -> parameters.add("text", text));
+    parameters.addAll("text", texts);
     parameters.add("lang", language);
     parameters.add("options", Integer.toString(options));
 
