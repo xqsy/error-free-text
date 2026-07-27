@@ -27,10 +27,8 @@ public class GlobalExceptionHandler {
   private static final int INTERNAL_ERROR_CODE = 50001;
   private static final String VALIDATION_ERROR_MESSAGE = "Request validation failed";
   private static final String MALFORMED_REQUEST_ERROR_MESSAGE = "Request has an invalid format";
-  private static final String METHOD_NOT_SUPPORTED_ERROR_MESSAGE =
-      "HTTP method is not supported";
-  private static final String MEDIA_TYPE_NOT_SUPPORTED_ERROR_MESSAGE =
-      "Content type is not supported";
+  private static final String METHOD_NOT_SUPPORTED_ERROR_MESSAGE = "HTTP method is not supported";
+  private static final String MEDIA_TYPE_NOT_SUPPORTED_ERROR_MESSAGE = "Content type is not supported";
   private static final String INTERNAL_ERROR_MESSAGE = "Unexpected internal error";
 
   @ExceptionHandler(MethodArgumentNotValidException.class)

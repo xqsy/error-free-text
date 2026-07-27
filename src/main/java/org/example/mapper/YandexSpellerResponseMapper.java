@@ -57,12 +57,6 @@ public final class YandexSpellerResponseMapper {
       return null;
     }
 
-    String suggestion = suggestions.getFirst();
-    if (suggestion == null) {
-      throw new InvalidSpellerResponseException("Response suggestion is null");
-    }
-
-    String replacement = suggestion.strip();
-    return replacement.isEmpty() ? null : replacement;
+    return suggestions.getFirst().strip();
   }
 }

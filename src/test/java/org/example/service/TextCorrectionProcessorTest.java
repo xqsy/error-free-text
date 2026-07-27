@@ -86,7 +86,7 @@ class TextCorrectionProcessorTest {
 
     verify(spellerClient, times(1)).checkTexts(anyList(), eq("en"), eq(0));
     verify(taskService)
-        .failTask(taskId, "Text correction service is unavailable");
+        .failTask(taskId, "Text correction failed");
     verify(taskService, never()).completeTask(eq(taskId), anyString());
   }
 
